@@ -1,0 +1,130 @@
+<% calendar_date = Date.parse(session[:calendar_date]) %>
+
+<h3><%= "Consolidated report: #{Date::MONTHNAMES[calendar_date.month]}-#{calendar_date.year} "%></h3>
+
+<%records_by_day = get_monthly_records_by_day(@records)%>
+
+<% if records_by_day.any? %>
+    <table>
+      <% (calendar_date.at_beginning_of_month..calendar_date.at_end_of_month).each do |day|  %>
+          <tr>
+            <th><h3><%= day.to_s %></h3></th>
+          </tr>
+          <% if !records_by_day[day].nil? %>
+              <% if !records_by_day[day]['self development'].nil? %>
+                  <% total_self_development = 0%>
+
+                  <tr>
+                    <th>Self Development</th>
+                  </tr>
+                  <tr>
+                    <th>Project</th>
+                    <th>Activity</th>
+                    <th>Time</th>
+                  </tr>
+                  <%  records_by_day[day]['self development'].each do |record| %>
+                      <% total_self_development += record.reported_minutes%>
+                      <tr>
+                        <td><%= record.project.name %></td>
+                        <td><%= record.discription %></td>
+                        <td><%= "#{record.hours}:#{record.minutes}" %></td>
+                      </tr>
+                  <% end %>
+                  <tr>
+                    <th></th>
+                    <th>Totals:</th>
+                    <th><%= convert_to_hours_minutes(total_self_development) %></th>
+                  </tr>
+              <% end %>
+
+              <% if !records_by_day[day]['working time'].nil? %>
+
+                  <% total_working_time = 0%>
+                  <tr>
+                    <th>Working Time</th>
+                  </tr>
+                  <tr>
+                    <th>Project</th>
+                    <th>Activity</th>
+                    <th>Time</th>
+                  </tr>
+                  <%  records_by_day[day]['working time'].each do |record| %>
+                      <% total_working_time += record.reported_minutes%>
+                      <tr>
+                        <td><%= record.project.name %></td>
+                        <td><%= record.discription %></td>
+                        <td><%= "#{record.hours}:#{record.minutes}" %></td>
+                      </tr>
+                  <% end %>
+                  <tr>
+                    <th></th>
+                    <th>Totals:</th>
+                    <th><%= convert_to_hours_minutes(total_working_time) %></th>
+                  </tr>
+              <% end %>
+
+              <% if !records_by_day[day]['extra time'].nil? %>
+                  <% total_extra_time = 0%>
+                  <tr>
+                    <th>Extra Time</th>
+                  </tr>
+                  <tr>
+                    <th>Project</th>
+                    <th>Activity</th>
+                    <th>Time</th>
+                  </tr>
+                  <%  records_by_day[day]['extra time'].each do |record| %>
+                      <% total_extra_time += record.reported_minutes%>
+                      <tr>
+                        <td><%= record.project.name %></td>
+                        <td><%= record.discription %></td>
+                        <td><%= "#{record.hours}:#{record.minutes}" %></td>
+                      </tr>
+                  <% end %>
+                  <tr>
+                    <th></th>
+                    <th>Totals:</th>
+                    <th><%= convert_to_hours_minutes(total_extra_time) %></th>
+                  </tr>
+              <% end %>
+
+              <% if !records_by_day[day]['team time'].nil? %>
+                  <% total_team_time = 0%>
+                  <tr>
+                    <th>Team Time</th>
+                  </tr>
+                  <tr>
+                    <th>Project</th>
+                    <th>Activity</th>
+                    <th>Time</th>
+                  </tr>
+                  <%  records_by_day[day]['team time'].each do |record| %>
+                      <% total_team_time += record.reported_minutes%>
+                      <tr>
+                        <td><%= record.project.name %></td>
+                        <td><%= record.discription %></td>
+                        <td><%= "#{record.hours}:#{record.minutes}" %></td>
+                      </tr>
+                  <% end %>
+                  <tr>
+                    <th></th>
+                    <th>Totals:</th>
+                    <th><%= convert_to_hours_minutes(total_team_time) %></th>
+                  </tr>
+              <% end %>
+
+          <% else %>
+              <tr>
+                <td colspan="3">No reports for this day</td>
+              </tr>
+          <% end %>
+          <tr>
+            <th colspan="3"></th>
+          </tr>
+      <% end %>
+    </table>
+<% else %>
+    <ul class="records">
+      <li>No reports were found for selected month</li>
+    </ul>
+<% end %>

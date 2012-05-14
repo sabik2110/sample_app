@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+
+  <%= csrf_meta_tag %>
+  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css"%>
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+
+  <![endif]-->
+  <%= stylesheet_link_tag 'blueprint/screen', :media => 'screen' %>
+  <%= stylesheet_link_tag 'blueprint/print',  :media => 'print' %>
+  <!--[if lt IE 8]><%= stylesheet_link_tag 'blueprint/ie' %><![endif]-->
+
+  <%= stylesheet_link_tag 'custom', :media => 'screen'%>
+</head>
+<body>
+<div class="container">
+
+  <%= render 'shared/header' %>
+
+  <% flash.each do |key, value| %>
+      <div class="flash <%= key %>"><%= value %></div>
+  <% end %>
+
+  <section class="round">
+    <%= yield %>
+  </section>
+
+  <%= render 'shared/bottom' %>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<h5>Total Time by selected date</h5>
+<table class="totals_table">
+  <tr>
+    <th>Activity Type</th>
+    <th>Total Time</th>
+  </tr>
+
+  <% result = get_daily_totals(@records) %>
+
+  <% if result["total_self_development"] != 0 %>
+      <tr>
+        <td>Self Development</td>
+        <td><%= convert_to_hours_minutes(result["total_self_development"]) %></td>
+      </tr>
+  <% end %>
+  <% if result["total_working_time"] != 0 %>
+      <tr>
+        <td>Working Time</td>
+        <td><%= convert_to_hours_minutes(result["total_working_time"]) %></td>
+      </tr>
+  <% end %>
+  <% if result["total_extra_time"] != 0 %>
+      <tr>
+        <td>Extra Time</td>
+        <td><%= convert_to_hours_minutes(result["total_extra_time"]) %></td>
+      </tr>
+  <% end %>
+  <% if result["total_team_time"] != 0 %>
+      <tr>
+        <td>Team Time</td>
+        <td><%= convert_to_hours_minutes(result["total_team_time"]) %></td>
+      </tr>
+  <% end %>
+</table>

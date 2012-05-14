@@ -1,0 +1,7 @@
+<li>
+  <%= link_to project.name, edit_project_path %>
+  <% if current_user.admin? %>
+  | <%= link_to "delete", project, :method => :delete, :confirm => "You sure?",
+                                :title => "Delete #{project.name}" %>
+  <% end %>
+</li>

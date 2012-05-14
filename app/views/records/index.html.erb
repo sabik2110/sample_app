@@ -1,0 +1,15 @@
+<h1>All records</h1>
+<%= link_to "Add record", :controller => "records", :action => "new" %>
+<ul class="records">
+  <% @records.each do |record| %>
+      <% if signed_in? && current_user.admin? %>
+          <li><%= link_to "Report # #{record.id}, ", edit_record_path(record[:id]), :title => "Edit #{record.id}" %>
+            <%= "Project = #{record.project.name}, Activity Type = #{record.activity.name}, Reported Time = #{record.hours}:#{record.minutes}" %>
+            | <%= link_to "delete", record, :method => :delete, :confirm => "Are you sure to delete #{record.id}?",
+                          :title => "Delete #{record.id}" %>
+          </li>
+      <% else %>
+          <li><%= record.id %></li>
+      <% end %>
+  <% end %>
+</ul>

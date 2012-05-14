@@ -1,0 +1,28 @@
+<h3>Daily Report</h3>
+
+<%= render 'reports/calendar_form' %>
+
+<% if session[:calendar_date] %>
+    <% calendar_date = Date.parse(session[:calendar_date]) %>
+
+
+    <%= link_to "Add report for #{calendar_date}", :controller => "records", :action => "new" %><br>
+    <%= link_to "Consolidated report for #{Date::MONTHNAMES[calendar_date.month]}-#{calendar_date.year}", :controller => "reports", :action => "consolidated_report" %>
+<% end %>
+
+<% if !@records.empty?%>
+    <% @records.each do |record| %>
+        <ul class="records">
+          <li><%= link_to "Report # #{record.id}, ", edit_record_path(record[:id]), :title => "Edit report ##{record.id}" %>
+            <%= "Project = #{record.project.name}, Activity Type = #{record.activity.name}, Reported Time = #{record.hours}:#{record.minutes}" %>
+            | <%= link_to "delete", record, :method => :delete, :confirm => "Are you sure to delete Report ##{record.id}?",
+                          :title => "Delete #{record.id}" %>
+          </li>
+        </ul>
+    <% end %>
+    <%= render 'reports/daily_table' %>
+<% else %>
+    <ul class="records">
+      <li>No reports were found for selected date</li>
+    </ul>
+<% end %>

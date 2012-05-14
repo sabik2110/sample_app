@@ -1,0 +1,15 @@
+<h1>All projects</h1>
+<% if signed_in? && current_user.admin? %>
+<%= link_to "Add project", :controller => "projects", :action => "new" %>
+    <% end %>
+<ul class="projects">
+  <% @projects.each do |project| %>
+      <% if signed_in? && current_user.admin? %>
+          <li><%= link_to project.name, edit_project_path(project[:id]), :title => "Edit #{project.name}" %>
+          | <%= link_to "delete", project, :method => :delete, :confirm => "Are you sure to delete #{project.name}?",
+                                          :title => "Delete #{project.name}" %></li>
+          <% else %>
+      <li><%= project.name %></li>
+      <% end %>
+  <% end %>
+</ul>
